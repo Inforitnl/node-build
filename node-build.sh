@@ -31,5 +31,4 @@ rm -rf "$DIST"
 
 npm install
 npm run build:prod
-npm run copy-configs
 npm run zipdist
