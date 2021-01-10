@@ -5,14 +5,26 @@ set -e
 # enable nullglob - allows filename patterns which match no files to expand to a null string, rather than themselves
 shopt -s nullglob
 
+# parse flags
+while getopts ":vt" opt; do
+  case $opt in
+    v) VERBOSE=true;;
+    t) WITH_TESTING=true;;
+  esac
+done
+
 DIST="./dist"
 
 # show input environment args
-echo "env: BITBUCKET_CLONE_DIR=$BITBUCKET_CLONE_DIR"
-echo "env: MYGET_ACCESS_TOKEN=$MYGET_ACCESS_TOKEN" | sed -e 's/=.\+/=******/g'
-echo "env: PROJECT_NAME=$PROJECT_NAME"
-echo "env: PROJECT_FILE=$PROJECT_FILE"
-echo ""
+if [ $VERBOSE ]
+then
+    echo "env: BITBUCKET_CLONE_DIR=$BITBUCKET_CLONE_DIR"
+    echo "env: MYGET_ACCESS_TOKEN=$MYGET_ACCESS_TOKEN" | sed -e 's/=.\+/=******/g'
+    echo "env: PROJECT_NAME=$PROJECT_NAME"
+    echo "env: PROJECT_FILE=$PROJECT_FILE"
+    echo "env: WITH_TESTING=$WITH_TESTING"
+    echo ""
+fi
 
 # go to the workdir
 if [ -n "$BITBUCKET_CLONE_DIR" ]
@@ -37,6 +49,9 @@ fi
 rm -rf "$DIST"
 
 npm install
-npm run test:prod --if-present
+if [ $WITH_TESTING ]
+then
+    npm run test:prod
+fi
 npm run build:prod
 npm run zipdist
