@@ -4,6 +4,9 @@
 
 Docker image to automate node builds on bitbucket (and local)
 
+Comes preinstalled with Firefox and Chromium for (unit)-testing during build.
+Also sonar-scanner is installed to enable sonar analyzing 
+
 ## Instructions
 
 1. update dockerfile

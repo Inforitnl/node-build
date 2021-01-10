@@ -37,6 +37,6 @@ fi
 rm -rf "$DIST"
 
 npm install
-npm run test:prod --if-exists
+npm run test:prod --if-present
 npm run build:prod
 npm run zipdist
