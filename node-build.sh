@@ -7,6 +7,13 @@ shopt -s nullglob
 
 DIST="./dist"
 
+# show input environment args
+echo "env: BITBUCKET_CLONE_DIR=$BITBUCKET_CLONE_DIR"
+echo "env: MYGET_ACCESS_TOKEN=$MYGET_ACCESS_TOKEN" | sed -e 's/=.\+/=******/g'
+echo "env: PROJECT_NAME=$PROJECT_NAME"
+echo "env: PROJECT_FILE=$PROJECT_FILE"
+echo ""
+
 # go to the workdir
 if [ -n "$BITBUCKET_CLONE_DIR" ]
 then
@@ -30,5 +37,6 @@ fi
 rm -rf "$DIST"
 
 npm install
+npm run test:prod --if-exists
 npm run build:prod
 npm run zipdist
